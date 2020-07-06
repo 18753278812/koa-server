@@ -1,0 +1,31 @@
+{
+  "scripts": {
+    "dev": "nodemon index.js",
+    "build": "webpack",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-multer": "^1.0.2",
+    "koa-router": "^8.0.8",
+    "koa-session": "^6.0.0",
+    "koa-static": "^5.0.0",
+    "mongoose": "^5.9.21",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "nodemon": "^2.0.3",
+    "path": "^0.12.7",
+    "sequelize": "^5.21.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "babel-loader": "^8.1.0",
+    "babel-polyfill": "^6.26.0",
+    "externals-dependencies": "^1.0.4",
+    "file-loader": "^6.0.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  }
+}

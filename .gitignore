@@ -1,0 +1,8 @@
+# 依赖包
+node_modules
+
+# 数据库配置
+config/config.json
+
+# 打包后文件
+dist
