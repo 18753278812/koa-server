@@ -6,7 +6,8 @@ const sequelize = require('../config/db')
 var SERVICE_LIST = sequelize.define('SERVICE_LIST', {
   name: DataTypes.STRING(255),
   imgSrc: DataTypes.STRING(255),
-  isDelete: DataTypes.NUMBER(1)
+  isDelete: DataTypes.NUMBER(1),
+  createdBy: DataTypes.STRING(255)
 }, {
   tableName: 'service_list'
 })

@@ -34,13 +34,16 @@ app.use(async (ctx, next) => {
       ctx.set('Content-Type', 'application/json')
     }
 
+    const AUTH = ['admin'] // 需要进行鉴权的路由
+    const AUTH_NOT = ['login'] // 从鉴权路由排除
+
     // 路由拦截
-    if (ctx.url && ctx.url.split('/')[1] === 'admin' && !['login'].includes(ctx.url.split('/')[2])) {
+    if (AUTH.includes(ctx.path.split('/')[1]) && !AUTH_NOT.includes(ctx.path.split('/')[2])){
       const { id } = ctx.session
       // 校验session是否有效
       await MongoDB.query({
         id
-      }).then(res => {
+      }).then(async res => {
         if (!res.length) {
           ctx.body = JSON.stringify({
             data: '用户信息已失效',
@@ -48,9 +51,11 @@ app.use(async (ctx, next) => {
             code: 401
           })
         } else { // 如果用户信息存在
-          next()
+          await next()
         }
       })
+    } else {
+      await next()
     }
 
     const rt = ctx.response.get('X-Response-Time');

@@ -71,9 +71,15 @@ router.post('/service/insert', async function(ctx) {
   const { name, imgSrc } = ctx.request.body
   await SERVICE_LIST.create({
     name,
-    imgSrc
+    imgSrc,
+    createdBy: ctx.session.username
   }).then(function (res) {
-    console.log(res)
+    console.log(res.dataValues)
+    ctx.body = JSON.stringify({
+      isSuccess: true,
+      data: res.dataValues,
+      code: 200
+    })
   })
 })
 
