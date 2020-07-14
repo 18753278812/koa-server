@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
+const config = require('config')
 
-const { basename, username, password, host } = require("./config.json")
+const { basename, username, password, host } = config.get('mysql')
 
 const sequelize = new Sequelize(basename, username, password, {
   host: host,

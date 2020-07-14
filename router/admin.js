@@ -68,13 +68,14 @@ router.get('/userInfo', async function (ctx) {
  * 新增服务
  */
 router.post('/service/insert', async function(ctx) {
-  const { name, imgSrc } = ctx.request.body
+  const { name, imgSrc, description } = ctx.request.body
   await SERVICE_LIST.create({
     name,
     imgSrc,
+    description,
     createdBy: ctx.session.username
   }).then(function (res) {
-    console.log(res.dataValues)
+    // console.log(res.dataValues)
     ctx.body = JSON.stringify({
       isSuccess: true,
       data: res.dataValues,
