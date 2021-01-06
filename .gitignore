@@ -6,3 +6,6 @@ config/config.json
 
 # 打包后文件
 dist
+
+# 日志文件
+logs
