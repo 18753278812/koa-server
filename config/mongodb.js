@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
-const config = require('config')
 
-const mongoDB = config.get('mongoDB')
+const { mongoDB } = require('./config.json')
 
 const DB_URL = mongoDB
 

@@ -3,7 +3,6 @@ node_modules
 
 # 数据库配置
 config/config.json
-config/default.json
 
 # 打包后文件
 dist
