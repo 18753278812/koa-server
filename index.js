@@ -3,8 +3,12 @@ const app = new Koa();
 const bodyParser = require('koa-bodyparser')
 const koaStatic = require('koa-static')
 const session = require('koa-session')
+// const session = require('koa-generic-session')
+const { port } = require('./config/config.json')
 const path = require('path')
-const MongoDB = require('./model/mongo-user')
+// const MongoDB = require('./model/mongo-user')
+const redisStore = require('./config/redis')
+const redisClient = redisStore.client
 
 // 文件读写模块
 const fs = require('fs')
@@ -18,9 +22,11 @@ const upload_file = koaStatic(path.resolve(__dirname), './upload')
 const admin = require('./router/admin')
 const index = require('./router/index')
 const common = require('./router/common')
+const detail = require('./router/detail');
 
 // session配置
 const config = {
+  store: redisStore,
   key: 'koa:sess',   //cookie key (default is koa:sess)
   maxAge: 86400000,  // cookie的过期时间 maxAge in ms (default is 1 days)
   overwrite: true,  //是否可以overwrite    (默认default true)
@@ -29,7 +35,7 @@ const config = {
   rolling: false,  //在每次请求时强行设置cookie，这将重置cookie过期时间（默认：false）
   renew: false,  //(boolean) renew session when session is nearly expired,
 }
-app.keys = ['zch_secret'];
+app.keys = ['keys', 'zch_secret'];
 
 app.use(session(config, app))
 
@@ -45,12 +51,9 @@ app.use(async (ctx, next) => {
 
     // 路由拦截
     if (AUTH.includes(ctx.path.split('/')[1]) && !AUTH_NOT.includes(ctx.path.split('/')[2])){
-      const { id } = ctx.session
-      // 校验session是否有效
-      await MongoDB.query({
-        id
-      }).then(async res => {
-        if (!res.length) {
+      console.log(ctx.cookies.get(config.key))
+      await redisClient.get(ctx.cookies.get(config.key)).then(async res => {
+        if (!res) {
           ctx.body = JSON.stringify({
             data: '用户信息已失效',
             isSuccess: false,
@@ -60,6 +63,21 @@ app.use(async (ctx, next) => {
           await next()
         }
       })
+      // const { id } = ctx.session
+      // 校验session是否有效
+      // await MongoDB.query({
+      //   id
+      // }).then(async res => {
+      //   if (!res.length) {
+      //     ctx.body = JSON.stringify({
+      //       data: '用户信息已失效',
+      //       isSuccess: false,
+      //       code: 401
+      //     })
+      //   } else { // 如果用户信息存在
+      //     await next()
+      //   }
+      // })
     } else {
       await next()
     }
@@ -89,12 +107,13 @@ app.use(bodyParser())
 app.use(admin.routes())
 app.use(index.routes())
 app.use(common.routes())
+app.use(detail.routes())
 
 // 静态文件服务
 app.use(upload_file)
 
 
-app.listen(3334)
+app.listen(port)
 
 function setLog(req) {
   let time = new Date()

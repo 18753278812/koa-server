@@ -1,3 +1,8 @@
+/**
+ * 已废弃 
+ * 2021.12.03
+ */
+
 const mongoose = require('mongoose')
 
 const { mongoDB } = require('./config.json')

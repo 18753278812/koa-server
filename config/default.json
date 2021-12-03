@@ -1,9 +1,0 @@
-{
-  "mysql": {
-    "host": "39.99.211.142",
-    "basename": "zch_database",
-    "username": "root",
-    "password": "123456"
-  },
-  "mongoDB": "mongodb://39.99.211.142:27017/zch_user"
-}

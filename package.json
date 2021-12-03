@@ -5,10 +5,12 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "@alicloud/pop-core": "^1.7.10",
     "fs": "^0.0.1-security",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-multer": "^1.0.2",
+    "koa-redis": "^4.0.1",
     "koa-router": "^8.0.8",
     "koa-session": "^6.0.0",
     "koa-static": "^5.0.0",
