@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@alicloud/pop-core": "^1.7.10",
+    "ali-oss": "^6.16.0",
     "fs": "^0.0.1-security",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
